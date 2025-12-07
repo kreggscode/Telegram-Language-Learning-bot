@@ -7,7 +7,7 @@ def get_language_prompt(language: str) -> str:
 Generate a list of 10 useful, everyday phrases in {language} for a beginner language learner.
 For each phrase, provide:
 1. The phrase in the native script.
-2. The Romanization/Pinyin (ONLY for non-Latin scripts like Russian, Chinese, Korean, Japanese, Hebrew). Format this line in italics (surrounded by underscores, e.g. _ni hao_). DO NOT write the word "Romanization" or "Pinyin" before it. Just the text.
+2. The Romanization/Pinyin (ONLY for non-Latin scripts like Russian, Chinese, Korean, Japanese, Hebrew). Format this line in italics (surrounded by underscores, e.g. _ni hao_). DO NOT write the word "Romanization" or "Pinyin" or any label before it. Just the italicized text.
 3. The English translation.
 
 Format neatly as a list.

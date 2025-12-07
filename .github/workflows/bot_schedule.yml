@@ -14,6 +14,8 @@ on:
     - cron: '30 13 * * *'
     - cron: '30 16 * * *'
   workflow_dispatch:
+  push:
+    branches: [ "master" ]
 
 jobs:
   run-bot:
