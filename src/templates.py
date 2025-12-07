@@ -6,8 +6,8 @@ def get_language_prompt(language: str) -> str:
     base_prompt = f"""
 Generate a list of 10 useful, everyday phrases in {language} for a beginner language learner.
 For each phrase, provide:
-1. The phrase in the native script (if applicable).
-2. The Romanization/Pinyin (CRITICAL for Russian, Chinese, Korean, Japanese, Hebrew, etc.).
+1. The phrase in the native script.
+2. The Romanization/Pinyin (ONLY for non-Latin scripts like Russian, Chinese, Korean, Japanese, Hebrew). Format this line in italics (surrounded by underscores, e.g. _ni hao_). DO NOT write the word "Romanization" or "Pinyin" before it. Just the text.
 3. The English translation.
 
 Format neatly as a list.
@@ -15,8 +15,8 @@ Ensure the phrases are distinct, practical, and not repeats of generic "Hello/Go
 Add a small "Cultural Note" or "Grammar Tip" at the end specific to these phrases.
 
 IMPORTANT:
-- If {language} uses a non-Latin script (like Russian, Chinese, Korean, Japanese, Hebrew), YOU MUST INCLUDE THE ROMANIZATION/TRANSLITERATION.
-- Do not number them simply 1-10, make them formatted for a Telegram message (maybe use emojis like 🔸).
+- For {language}, if it uses a non-Latin script, YOU MUST INCLUDE THE ROMANIZATION in italics on the line below the native phrase.
+- Do not number them simply 1-10, use emojis like 🔸.
 - Add a header line: "🌍 Learning {language}: Daily Phrases 🌍"
 """
     return base_prompt
