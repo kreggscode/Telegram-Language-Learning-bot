@@ -1,0 +1,41 @@
+name: Bot Schedule
+
+on:
+  schedule:
+    # 5 times a day:
+    # 3:30 UTC = 9:00 IST (Morning)
+    # 6:30 UTC = 12:00 IST (Noon)
+    # 9:30 UTC = 15:00 IST (Afternoon)
+    # 13:30 UTC = 19:00 IST (Evening)
+    # 16:30 UTC = 22:00 IST (Night)
+    - cron: '30 3 * * *'
+    - cron: '30 6 * * *'
+    - cron: '30 9 * * *'
+    - cron: '30 13 * * *'
+    - cron: '30 16 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Bot
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          # Timezone offset for any local time calcs (India is UTC+5.5)
+          TIMEZONE_OFFSET_HOURS: 5.5 
+        run: python -m src.main
