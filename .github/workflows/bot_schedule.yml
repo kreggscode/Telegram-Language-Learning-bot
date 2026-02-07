@@ -38,6 +38,8 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
+          AI_MODEL: ${{ secrets.AI_MODEL || 'gemini-fast' }}
           # Timezone offset for any local time calcs (India is UTC+5.5)
           TIMEZONE_OFFSET_HOURS: 5.5 
         run: python -m src.main

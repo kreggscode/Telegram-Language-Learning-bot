@@ -3,31 +3,55 @@ import requests
 import random
 import time
 from datetime import datetime
+from .config import POLLINATIONS_API_KEY, AI_MODEL
 
 
 def generate_text(prompt: str) -> str:
-    """Generate free-form text from Pollinations.ai with randomization for variety."""
-    # Add randomization to ensure unique content every day
+    """Generate text from Pollinations.ai using the paid API endpoint."""
+    if not POLLINATIONS_API_KEY:
+        # Fallback to free endpoint if key is missing, though user wants paid
+        seed = random.randint(1000, 999999)
+        encoded = urllib.parse.quote(prompt)
+        url = f"https://text.pollinations.ai/{encoded}?seed={seed}"
+        resp = requests.get(url, timeout=30)
+        return resp.text.strip() if resp.status_code == 200 else "AI generation failed. Please try again."
+
+    headers = {
+        "Authorization": f"Bearer {POLLINATIONS_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    # Add randomization to ensure unique content
     seed = random.randint(1000, 999999)
-    timestamp = int(time.time())
-    date_str = datetime.now().strftime("%Y-%m-%d")
+    enhanced_prompt = f"{prompt}\n\n(Random seed: {seed})"
     
-    # Enhance prompt with context to ensure variety
-    enhanced_prompt = f"{prompt}\n\nIMPORTANT: Make this unique and different. Today's date: {date_str}. Generate fresh, original content not seen before. Seed: {seed}"
+    payload = {
+        "model": AI_MODEL,
+        "messages": [{"role": "user", "content": enhanced_prompt}],
+        "seed": seed
+    }
     
-    encoded = urllib.parse.quote(enhanced_prompt)
-    # Add seed parameter to URL for additional randomization
-    url = f"https://text.pollinations.ai/{encoded}?seed={seed}&timestamp={timestamp}"
-    
-    resp = requests.get(url, timeout=30)
-    if resp.status_code == 200:
-        return resp.text.strip()
-    return "AI generation failed. Please try again."
+    try:
+        resp = requests.post("https://gen.pollinations.ai/v1/chat/completions", json=payload, headers=headers, timeout=60)
+        if resp.status_code == 200:
+            data = resp.json()
+            return data["choices"][0]["message"]["content"].strip()
+        else:
+            print(f"API Error: {resp.status_code} - {resp.text}")
+            return f"AI generation failed (Status {resp.status_code}). Please try again."
+    except Exception as e:
+        print(f"Request Exception: {e}")
+        return "AI generation failed due to a connection error."
 
 
 def image_url(prompt: str) -> str:
-    """Return an image URL from Pollinations based on prompt with randomization."""
+    """Return an image URL from Pollinations based on prompt with specialization for paid API."""
     seed = random.randint(1000, 999999)
     encoded = urllib.parse.quote(prompt)
-    # Add seed for image variety
+    
+    if POLLINATIONS_API_KEY:
+        # Using the paid gateway with the API key
+        return f"https://gen.pollinations.ai/image/{encoded}?model=flux&seed={seed}&key={POLLINATIONS_API_KEY}"
+    
+    # Fallback to free endpoint
     return f"https://image.pollinations.ai/prompt/{encoded}?seed={seed}"

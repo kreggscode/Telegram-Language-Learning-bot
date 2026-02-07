@@ -7,6 +7,8 @@ load_dotenv(override=False)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 CHAT_ID = os.getenv("CHAT_ID", "").strip()
+POLLINATIONS_API_KEY = os.getenv("POLLINATIONS_API_KEY", "").strip()
+AI_MODEL = os.getenv("AI_MODEL", "gemini-fast").strip()
 TIMEZONE_OFFSET_HOURS = float(os.getenv("TIMEZONE_OFFSET_HOURS", "5.5"))  # default IST
 
 if not BOT_TOKEN or not CHAT_ID:
