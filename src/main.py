@@ -44,6 +44,8 @@ def post_language_pair():
         except Exception as e:
             print(f"Error posting for {lang}: {e}")
             tg.send_text(f"⚠️ Error generating content for {lang}. Please check logs.")
+    
+    print("Post language pair run completed.")
 
 
 def main():

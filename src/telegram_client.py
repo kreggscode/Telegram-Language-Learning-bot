@@ -12,6 +12,24 @@ def send_text(text: str):
         "parse_mode": "Markdown"
     }
     resp = requests.post(url, data=data)
+    if resp.status_code != 200:
+        print(f"FAILED to send message to Telegram. Status: {resp.status_code}")
+        print(f"Response: {resp.text}")
+        # Try fallback without markdown
+        if "Bad Request: can't parse entities" in resp.text:
+            print("Retrying without Markdown...")
+            data_no_md = data.copy()
+            data_no_md.pop("parse_mode", None)
+            resp_retry = requests.post(url, data=data_no_md)
+            if resp_retry.status_code == 200:
+                print("Retry successful (without Markdown).")
+                return resp_retry
+            else:
+                print(f"Retry also FAILED. Status: {resp_retry.status_code}")
+                print(f"Retry Response: {resp_retry.text}")
+                return resp_retry
+    else:
+        print(f"Successfully sent message to Telegram (Chat: {CHAT_ID}).")
     return resp
 
 

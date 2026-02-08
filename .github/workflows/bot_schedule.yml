@@ -8,11 +8,11 @@ on:
     # 9:30 UTC = 15:00 IST (Afternoon)
     # 13:30 UTC = 19:00 IST (Evening)
     # 16:30 UTC = 22:00 IST (Night)
-    - cron: '30 3 * * *'
-    - cron: '30 6 * * *'
-    - cron: '30 9 * * *'
-    - cron: '30 13 * * *'
-    - cron: '30 16 * * *'
+    - cron: '35 3 * * *'
+    - cron: '35 6 * * *'
+    - cron: '35 9 * * *'
+    - cron: '35 13 * * *'
+    - cron: '35 16 * * *'
   workflow_dispatch:
   push:
     branches: [ "master" ]
