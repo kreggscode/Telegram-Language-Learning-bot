@@ -1,20 +1,12 @@
 import urllib.parse
 import requests
 import random
-import time
-from datetime import datetime
 from .config import POLLINATIONS_API_KEY, AI_MODEL
 
-
 def generate_text(prompt: str) -> str:
-    """Generate text from Pollinations.ai using the paid API endpoint."""
+    """Generate text from Pollinations.ai using ONLY the paid API endpoint."""
     if not POLLINATIONS_API_KEY:
-        # Fallback to free endpoint if key is missing, though user wants paid
-        seed = random.randint(1000, 999999)
-        encoded = urllib.parse.quote(prompt)
-        url = f"https://text.pollinations.ai/{encoded}?seed={seed}"
-        resp = requests.get(url, timeout=30)
-        return resp.text.strip() if resp.status_code == 200 else "AI generation failed. Please try again."
+        raise RuntimeError("FATAL: POLLINATIONS_API_KEY is missing. Paid API usage is REQUIRED.")
 
     headers = {
         "Authorization": f"Bearer {POLLINATIONS_API_KEY}",
@@ -37,21 +29,21 @@ def generate_text(prompt: str) -> str:
             data = resp.json()
             return data["choices"][0]["message"]["content"].strip()
         else:
-            print(f"API Error: {resp.status_code} - {resp.text}")
-            return f"AI generation failed (Status {resp.status_code}). Please try again."
+            err_msg = f"Paid API Error: {resp.status_code} - {resp.text}"
+            print(err_msg)
+            return f"⚠️ AI generation failed (Paid API Status {resp.status_code})."
     except Exception as e:
         print(f"Request Exception: {e}")
-        return "AI generation failed due to a connection error."
+        return "⚠️ AI generation failed due to a connection error with the paid API."
 
 
 def image_url(prompt: str) -> str:
-    """Return an image URL from Pollinations based on prompt with specialization for paid API."""
+    """Return an image URL from Pollinations using ONLY the paid API endpoint."""
+    if not POLLINATIONS_API_KEY:
+        raise RuntimeError("FATAL: POLLINATIONS_API_KEY is missing. Paid API usage is REQUIRED.")
+
     seed = random.randint(1000, 999999)
     encoded = urllib.parse.quote(prompt)
     
-    if POLLINATIONS_API_KEY:
-        # Using the paid gateway with the API key
-        return f"https://gen.pollinations.ai/image/{encoded}?model=flux&seed={seed}&key={POLLINATIONS_API_KEY}"
-    
-    # Fallback to free endpoint
-    return f"https://image.pollinations.ai/prompt/{encoded}?seed={seed}"
+    # Using ONLY the paid gateway with the API key
+    return f"https://gen.pollinations.ai/image/{encoded}?model=flux&seed={seed}&key={POLLINATIONS_API_KEY}"
