@@ -2,34 +2,20 @@
 
 {% block content %}
 <div class="card-grid">
-    <div class="card">
-        <h2>🐍 Python Tip</h2>
-        <p>AI-generated Python coding tip with example.</p>
-        <a href="{{ url_for('send_python_tip') }}" class="btn">Send to Channel</a>
+    <!-- Daily Pair Card (Main Action) -->
+    <div class="card full-width">
+        <h2>🌍 Trigger Daily Language Pair</h2>
+        <p>Randomly selects 2 distinct languages and posts a beginner-friendly learning card for each (sharing a common daily topic).</p>
+        <a href="{{ url_for('send_daily_pair') }}" class="btn btn-primary">Trigger Daily Post Pair</a>
     </div>
 
+    <!-- Individual Language Cards -->
+    {% for lang in languages %}
     <div class="card">
-        <h2>🖼️ Image + Code</h2>
-        <p>Rotates: JS, Python, ML tip with matching AI image.</p>
-        <a href="{{ url_for('send_image_post') }}" class="btn">Send to Channel</a>
+        <h2>🎯 {{ lang }} Card</h2>
+        <p>Generate and send a vocabulary card specifically for <strong>{{ lang }}</strong> with a random topic.</p>
+        <a href="{{ url_for('send_language_card', lang=lang) }}" class="btn">Send {{ lang }} Post</a>
     </div>
-
-    <div class="card">
-        <h2>📰 Tech News</h2>
-        <p>Latest tech news update with impact analysis.</p>
-        <a href="{{ url_for('send_tech_news') }}" class="btn">Send to Channel</a>
-    </div>
-
-    <div class="card">
-        <h2>📊 Poll</h2>
-        <p>Multiple-choice coding question for your audience.</p>
-        <a href="{{ url_for('send_poll') }}" class="btn">Send to Channel</a>
-    </div>
-
-    <div class="card">
-        <h2>🧵 Thread</h2>
-        <p>4-part explanation thread on a coding concept.</p>
-        <a href="{{ url_for('send_thread') }}" class="btn">Send to Channel</a>
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}

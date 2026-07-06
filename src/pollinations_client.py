@@ -3,8 +3,8 @@ import requests
 import random
 from .config import POLLINATIONS_API_KEY, AI_MODEL
 
-def generate_text(prompt: str) -> str:
-    """Generate text from Pollinations.ai using ONLY the paid API endpoint."""
+def generate_text(prompt: str, max_retries: int = 3) -> str:
+    """Generate text from Pollinations.ai using ONLY the paid API endpoint with retry logic."""
     if not POLLINATIONS_API_KEY:
         raise RuntimeError("FATAL: POLLINATIONS_API_KEY is missing. Paid API usage is REQUIRED.")
 
@@ -23,18 +23,25 @@ def generate_text(prompt: str) -> str:
         "seed": seed
     }
     
-    try:
-        resp = requests.post("https://gen.pollinations.ai/v1/chat/completions", json=payload, headers=headers, timeout=60)
-        if resp.status_code == 200:
-            data = resp.json()
-            return data["choices"][0]["message"]["content"].strip()
-        else:
-            err_msg = f"Paid API Error: {resp.status_code} - {resp.text}"
-            print(err_msg)
-            return f"⚠️ AI generation failed (Paid API Status {resp.status_code})."
-    except Exception as e:
-        print(f"Request Exception: {e}")
-        return "⚠️ AI generation failed due to a connection error with the paid API."
+    import time
+    for attempt in range(max_retries):
+        try:
+            print(f"Calling Pollinations API (Attempt {attempt + 1}/{max_retries})...")
+            resp = requests.post("https://gen.pollinations.ai/v1/chat/completions", json=payload, headers=headers, timeout=40)
+            if resp.status_code == 200:
+                data = resp.json()
+                return data["choices"][0]["message"]["content"].strip()
+            elif resp.status_code == 429:
+                print(f"Rate limited (429). Retrying after sleep...")
+                time.sleep(5 * (attempt + 1))
+            else:
+                print(f"API Error {resp.status_code}: {resp.text}")
+                time.sleep(2)
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed with exception: {e}")
+            time.sleep(2)
+            
+    return "⚠️ AI generation failed after multiple attempts due to API timeouts or errors."
 
 
 def image_url(prompt: str) -> str:

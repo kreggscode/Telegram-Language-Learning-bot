@@ -107,3 +107,7 @@ footer {
   border: 1px solid rgba(239, 68, 68, 0.6);
   color: #fca5a5;
 }
+
+.full-width {
+  grid-column: 1 / -1;
+}

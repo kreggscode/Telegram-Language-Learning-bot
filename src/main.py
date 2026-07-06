@@ -21,18 +21,24 @@ def post_language_pair():
     """
     Selects 2 distinct languages and posts a learning card for each.
     """
+    from .templates import TOPICS
+    
+    # Select a common topic for this run
+    topic = random.choice(TOPICS)
+    
     # Select 2 unique languages
     selected_langs = random.sample(LANGUAGES, 2)
     
+    print(f"Selected topic for this run: {topic}")
     print(f"Selected languages for this run: {selected_langs}")
 
     for lang in selected_langs:
         try:
             # Generate content
             prompt_func = TEXT_TEMPLATES["language_prompt"]
-            prompt = prompt_func(lang)
+            prompt = prompt_func(lang, topic)
             
-            print(f"Generating content for {lang}...")
+            print(f"Generating content for {lang} (Topic: {topic})...")
             text_content = ai.generate_text(prompt)
             
             # Send to Telegram
