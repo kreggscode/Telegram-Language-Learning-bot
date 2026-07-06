@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from src import telegram_client as tg
 from src import pollinations_client as ai
-from src.templates import TEXT_TEMPLATES, TOPICS
+from src.templates import TEXT_TEMPLATES, TOPICS, HASHTAGS
 from src.main import LANGUAGES
 
 app = Flask(__name__)
@@ -33,6 +33,9 @@ def send_daily_pair():
             prompt_func = TEXT_TEMPLATES["language_prompt"]
             prompt = prompt_func(lang, topic)
             text_content = ai.generate_text(prompt)
+            # Append search hashtags for discoverability
+            tags = HASHTAGS.get(lang, "\n\n#LanguageLearning #LearnLanguages")
+            text_content += tags
             tg.send_text(text_content)
         except Exception as e:
             flash(f"Error posting for {lang}: {e}", "error")
@@ -52,6 +55,9 @@ def send_language_card(lang):
         prompt_func = TEXT_TEMPLATES["language_prompt"]
         prompt = prompt_func(lang, topic)
         text_content = ai.generate_text(prompt)
+        # Append search hashtags for discoverability
+        tags = HASHTAGS.get(lang, "\n\n#LanguageLearning #LearnLanguages")
+        text_content += tags
         tg.send_text(text_content)
         flash(f"Manually sent {lang} vocabulary card (Topic: {topic})!", "success")
     except Exception as e:

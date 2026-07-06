@@ -21,7 +21,7 @@ def post_language_pair():
     """
     Selects 2 distinct languages and posts a learning card for each.
     """
-    from .templates import TOPICS
+    from .templates import TOPICS, HASHTAGS
     
     # Select a common topic for this run
     topic = random.choice(TOPICS)
@@ -40,6 +40,10 @@ def post_language_pair():
             
             print(f"Generating content for {lang} (Topic: {topic})...")
             text_content = ai.generate_text(prompt)
+            
+            # Append search hashtags for discoverability
+            tags = HASHTAGS.get(lang, "\n\n#LanguageLearning #LearnLanguages")
+            text_content += tags
             
             # Send to Telegram
             tg.send_text(text_content)
