@@ -53,17 +53,16 @@ TEXT_TEMPLATES = {
 }
 
 IMAGE_TEMPLATES = {
-    # Keep some generic ones or language specific if we want images later
     "default": "A beautiful, minimalist educational illustration about language learning, vector art style, flat design, soft colors"
 }
 
 HASHTAGS = {
-    "German": "\n\n#German #LearnGerman #LanguageLearning #Deutsch #DailyGerman",
-    "Spanish": "\n\n#Spanish #LearnSpanish #LanguageLearning #Español #DailySpanish",
-    "Russian": "\n\n#Russian #LearnRussian #LanguageLearning #Русский #DailyRussian",
-    "Chinese (Mandarin)": "\n\n#Chinese #Mandarin #LearnChinese #LanguageLearning #DailyChinese",
-    "Korean": "\n\n#Korean #LearnKorean #LanguageLearning #한국어 #DailyKorean",
-    "Italian": "\n\n#Italian #LearnItalian #LanguageLearning #Italiano #DailyItalian",
-    "Japanese": "\n\n#Japanese #LearnJapanese #LanguageLearning #日本語 #DailyJapanese",
-    "Hebrew": "\n\n#Hebrew #LearnHebrew #LanguageLearning #עברית #DailyHebrew"
+    "German": "\n\n🔍 **Topics:** German Vocabulary • Daily Deutsch • German Phrases • Goethe A1-B2\n#German #LearnGerman #LanguageLearning #Deutsch #DailyGerman #Polyglot #GermanGrammar",
+    "Spanish": "\n\n🔍 **Topics:** Spanish Phrases • Español Vocabulario • Conversational Spanish • DELE\n#Spanish #LearnSpanish #LanguageLearning #Español #DailySpanish #Polyglot #LearnSpanishDaily",
+    "Russian": "\n\n🔍 **Topics:** Russian Phrases • Cyrillic Pronunciation • Daily Russian • TORFL\n#Russian #LearnRussian #LanguageLearning #Русский #DailyRussian #Polyglot #RussianGrammar",
+    "Chinese (Mandarin)": "\n\n🔍 **Topics:** Mandarin Chinese • Pinyin & Characters • HSK Vocabulary • Spoken Chinese\n#Chinese #Mandarin #LearnChinese #LanguageLearning #DailyChinese #HSK #Zhongwen",
+    "Korean": "\n\n🔍 **Topics:** Korean Hangul • Daily Korean Expressions • TOPIK Vocab • K-Culture\n#Korean #LearnKorean #LanguageLearning #한국어 #DailyKorean #TOPIK #Hangul",
+    "Italian": "\n\n🔍 **Topics:** Italian Expressions • Italiano Vocabolario • Italian Grammar • Travel Italy\n#Italian #LearnItalian #LanguageLearning #Italiano #DailyItalian #Polyglot #LearnItalian",
+    "Japanese": "\n\n🔍 **Topics:** Japanese Kanji • Hiragana/Katakana • JLPT N5-N1 • Daily Nihongo\n#Japanese #LearnJapanese #LanguageLearning #日本語 #DailyJapanese #JLPT #Nihongo",
+    "Hebrew": "\n\n🔍 **Topics:** Hebrew Alphabet • Modern Ivrit • Daily Hebrew • Ulpan Vocab\n#Hebrew #LearnHebrew #LanguageLearning #עברית #DailyHebrew #Polyglot #Ivrit"
 }
